@@ -1,0 +1,191 @@
+PARSER_BEGIN(CLang)
+public class CLang {
+    
+}
+PARSER_END(CLang)
+
+SKIP : {
+ " "
+|  "\t"
+|  "\n"
+|  "\r"
+|  <"//" (~["\n","\r"])* ("\n" | "\r" | "\r\n")>
+|  <"/*" (~["*"])* "*" ("*" | ~["*","/"] (~["*"])* "*")* "/">
+}
+
+TOKEN : {
+    <TYPE: <INT> | <CHAR> | <VOID> >    |
+    <IF:   "if"  >                      |
+    <#INT: "int" >                      |
+    <#CHAR: "char" >                    |
+    <WHILE: "while" >                   |
+    <RETURN: "return" > |
+    <FOR: "for">                                                    |
+    <#VOID: "void" >                    
+}
+
+TOKEN: {
+    <ID: <LETTER> (<LETTER> | <DIGIT> | <ZERO>)* >                  |
+    <NUMBER: <DIGIT> (<DIGIT> | <ZERO>)* | <ZERO> >                 |
+    <CHAR_VALUE: <APSOTREPHE> (<LETTER> | <DIGIT>) <APSOTREPHE> >   | 
+    <#LETTER: ["a"-"z","A"-"Z"] >                                   |
+    <#DIGIT: ["1"-"9"] >                                            |
+    <#ZERO: "0" >
+}
+
+TOKEN: {
+    <LRBRACKET: "(" > |
+    <RRBRACKET: ")" > |
+    <COMMA:     "," > |
+    <LCBRACKET: "{" > |
+    <RCBRACKET: "}" > |
+    <SEMICOLON: ";" > |
+    <ASSIGN:    "=" > |
+    <APSOTREPHE:"'" > |
+    <EQ:       "==" > |
+    <LT:       "<"  > |
+    <LTE:      "<=" > |
+    <GT:       ">"  > |
+    <GTE:      ">=" > |
+    <NOT:      "!"  > |
+    <NEQ:      "!=" > |
+    <AND:      "&&" > |
+    <OR:       "||" > |
+    <ADD:       "+" > |
+    <SUB:       "-" > |
+    <MUL:       "*" > |
+    <DIV:       "/" > |
+    <MOD:       "%" >  
+}
+
+void Start() : {}
+{
+    (sourceCodeDef())*
+}
+
+void sourceCodeDef() : {}
+{   
+    LOOKAHEAD( varDefineDef() <SEMICOLON> ) varDefineDef() <SEMICOLON> | functionDef()
+}
+
+void paramListDef() : {}
+{
+    paramDef() (<COMMA> paramDef())*
+}
+
+void paramDef() : {}
+{
+    <TYPE> <ID>
+}
+
+void functionDef() : {}
+{
+    <TYPE> <ID> <LRBRACKET> [paramListDef()] <RRBRACKET> StatementBlockDef()
+}
+
+void varAssignDefInInit() : {}
+{
+    <ASSIGN> expressionDef()
+}
+
+void varAssignDef() : {}
+{
+    <ID> <ASSIGN> expressionDef()
+}
+
+void varDefineDef() : {}
+{
+    <TYPE> <ID> [varAssignDefInInit()]
+}
+
+
+void StatementBlockDef() : {}
+{
+    <LCBRACKET> (StatementDef())* <RCBRACKET>
+}
+
+void StatementDef() : {}
+{
+    varDefineDef() <SEMICOLON> |
+    expressionDef() <SEMICOLON> | 
+    WhileStatementDef() |
+    IfStatementDef()
+}
+
+void WhileStatementDef() : {}
+{
+    <WHILE> <LRBRACKET> expressionDef() <RRBRACKET> (StatementBlockDef() | StatementDef())
+}
+
+void IfStatementDef() : {}
+{
+    <IF> <LRBRACKET> expressionDef() <RRBRACKET> (StatementBlockDef() | StatementDef())
+}
+
+void expressionDef() : {}
+{
+    LOOKAHEAD(assignExpressionDef()) assignExpressionDef() |
+    boolExpressionDef()
+}
+
+void assignExpressionDef() : {}
+{
+    <ID> <ASSIGN> expressionDef()
+}
+
+void boolExpressionDef() : {}
+{
+    binaryBoolExpressionOrDef()
+}
+
+void binaryBoolExpressionOrDef() : {}
+{
+    binaryBoolExpressionAndDef() [ <OR> binaryBoolExpressionOrDef() ]
+}
+
+void binaryBoolExpressionAndDef() : {}
+{
+    binaryExpressionEqDef() [ <AND> binaryBoolExpressionAndDef() ]
+}
+
+void binaryExpressionEqDef() : {}
+{
+    binaryBoolExpressionCompareDef() [ (<EQ> | <NEQ> ) binaryExpressionEqDef() ] 
+}
+
+void binaryBoolOperatorCompareDef() : {}
+{
+    
+    <LT> | <LTE> | <GT> | <GTE>
+}
+
+void binaryBoolExpressionCompareDef() : {}
+{
+    addExpressionDef() [ binaryBoolOperatorCompareDef() binaryBoolExpressionCompareDef() ]
+}
+
+void addExpressionDef() : {}
+{
+    mulExpressionDef() [ (<ADD> | <SUB>) addExpressionDef() ]
+}
+
+void mulExpressionDef() : {}
+{
+    unaryExpressionDef() [ (<MUL> | <DIV> | <MOD>) mulExpressionDef() ]
+}
+
+void unaryExpressionDef() : {}
+{
+    <NOT> unaryExpressionDef()                  |
+    <LRBRACKET> expressionDef() <RRBRACKET>     |
+    constExpressionDef()
+
+}
+
+void constExpressionDef() : {}
+{
+    <ID>                                        |
+    <NUMBER>                                    |
+    <CHAR_VALUE>                                
+}
+
