@@ -19,8 +19,8 @@ TOKEN : {
     <#INT: "int" >                      |
     <#CHAR: "char" >                    |
     <WHILE: "while" >                   |
-    <RETURN: "return" > |
-    <FOR: "for">                                                    |
+    <RETURN: "return" >                 |
+    <FOR: "for">                        |
     <#VOID: "void" >                    
 }
 
@@ -104,22 +104,41 @@ void StatementBlockDef() : {}
     <LCBRACKET> (StatementDef())* <RCBRACKET>
 }
 
+void StatementExpressionDefRBrackets() : {}
+{
+    expressionDef() | <LRBRACKET> expressionDef() <RRBRACKET>
+}
+
+
 void StatementDef() : {}
 {
     varDefineDef() <SEMICOLON> |
     expressionDef() <SEMICOLON> | 
     WhileStatementDef() |
-    IfStatementDef()
+    IfStatementDef() |
+    ReturnStatementDef() <SEMICOLON> |
+    ForStatementDef()
 }
 
 void WhileStatementDef() : {}
 {
-    <WHILE> <LRBRACKET> expressionDef() <RRBRACKET> (StatementBlockDef() | StatementDef())
+    <WHILE> StatementExpressionDefRBrackets() (StatementBlockDef() | StatementDef())
 }
 
 void IfStatementDef() : {}
 {
-    <IF> <LRBRACKET> expressionDef() <RRBRACKET> (StatementBlockDef() | StatementDef())
+    <IF> <LRBRACKET> StatementExpressionDefRBrackets() <RRBRACKET> (StatementBlockDef() | StatementDef())
+}
+
+void ForStatementDef() : {}
+{
+    <FOR> <LRBRACKET> (varDefineDef() | varAssignDef()) <SEMICOLON> boolExpressionDef() <SEMICOLON>
+    expressionDef() <RRBRACKET> (StatementBlockDef() | StatementDef())
+}
+
+void ReturnStatementDef() : {}
+{
+    <RETURN> StatementExpressionDefRBrackets() (binaryBoolExpressionCompareDef() StatementExpressionDefRBrackets())* 
 }
 
 void expressionDef() : {}
@@ -127,6 +146,7 @@ void expressionDef() : {}
     LOOKAHEAD(assignExpressionDef()) assignExpressionDef() |
     boolExpressionDef()
 }
+
 
 void assignExpressionDef() : {}
 {
