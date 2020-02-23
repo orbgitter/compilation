@@ -18,4 +18,4 @@ class ASTsourceCodeDef extends SimpleNode {
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=0934e691edf105163ae416cba46d5149 (do not edit this line) */
+/* JavaCC - OriginalChecksum=6b625284031c7e542fa2f94be11360fb (do not edit this line) */

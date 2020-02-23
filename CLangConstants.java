@@ -11,17 +11,17 @@ public interface CLangConstants {
   /** RegularExpression Id. */
   int TYPE = 7;
   /** RegularExpression Id. */
-  int IF = 8;
+  int WHILE = 8;
   /** RegularExpression Id. */
-  int INT = 9;
+  int RETURN = 9;
   /** RegularExpression Id. */
-  int CHAR = 10;
+  int FOR = 10;
   /** RegularExpression Id. */
-  int WHILE = 11;
+  int IF = 11;
   /** RegularExpression Id. */
-  int RETURN = 12;
+  int INT = 12;
   /** RegularExpression Id. */
-  int FOR = 13;
+  int CHAR = 13;
   /** RegularExpression Id. */
   int VOID = 14;
   /** RegularExpression Id. */
@@ -94,12 +94,12 @@ public interface CLangConstants {
     "<token of kind 5>",
     "<token of kind 6>",
     "<TYPE>",
-    "\"if\"",
-    "\"int\"",
-    "\"char\"",
     "\"while\"",
     "\"return\"",
     "\"for\"",
+    "\"if\"",
+    "\"int\"",
+    "\"char\"",
     "\"void\"",
     "<ID>",
     "<NUMBER>",

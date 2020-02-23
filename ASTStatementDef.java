@@ -18,4 +18,4 @@ class ASTStatementDef extends SimpleNode {
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=38db30e9fb9ab28e1c96f25260d00f39 (do not edit this line) */
+/* JavaCC - OriginalChecksum=ee1ae0dc7ba64dc4943ac2ed6483a339 (do not edit this line) */

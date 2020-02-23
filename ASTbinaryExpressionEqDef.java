@@ -18,4 +18,4 @@ class ASTbinaryExpressionEqDef extends SimpleNode {
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=2b2684c09a650a1ca4dceca0b8ad533e (do not edit this line) */
+/* JavaCC - OriginalChecksum=ecdce511ad963f3581387f64c1335257 (do not edit this line) */

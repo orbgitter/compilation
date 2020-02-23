@@ -18,4 +18,4 @@ class ASTStatementBlockDef extends SimpleNode {
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=a8b870fcccdafb37dc8fc3e9774657e5 (do not edit this line) */
+/* JavaCC - OriginalChecksum=e3bd809eea497f79807616e2a219fb49 (do not edit this line) */

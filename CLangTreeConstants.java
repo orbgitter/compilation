@@ -11,20 +11,23 @@ public interface CLangTreeConstants
   public int JJTVARDEFINEDEF = 7;
   public int JJTSTATEMENTBLOCKDEF = 8;
   public int JJTSTATEMENTDEF = 9;
-  public int JJTWHILESTATEMENTDEF = 10;
-  public int JJTIFSTATEMENTDEF = 11;
-  public int JJTEXPRESSIONDEF = 12;
-  public int JJTASSIGNEXPRESSIONDEF = 13;
-  public int JJTBOOLEXPRESSIONDEF = 14;
-  public int JJTBINARYBOOLEXPRESSIONORDEF = 15;
-  public int JJTBINARYBOOLEXPRESSIONANDDEF = 16;
-  public int JJTBINARYEXPRESSIONEQDEF = 17;
-  public int JJTBINARYBOOLOPERATORCOMPAREDEF = 18;
-  public int JJTBINARYBOOLEXPRESSIONCOMPAREDEF = 19;
-  public int JJTADDEXPRESSIONDEF = 20;
-  public int JJTMULEXPRESSIONDEF = 21;
-  public int JJTUNARYEXPRESSIONDEF = 22;
-  public int JJTCONSTEXPRESSIONDEF = 23;
+  public int JJTRETURNSTATEMENTDEF = 10;
+  public int JJTWHILESTATEMENTDEF = 11;
+  public int JJTFORSTATEMENTDEF = 12;
+  public int JJTIFSTATEMENTDEF = 13;
+  public int JJTEXPRESSIONDEF = 14;
+  public int JJTSTATEMENTEXPRESSIONDEFRBRACKET = 15;
+  public int JJTASSIGNEXPRESSIONDEF = 16;
+  public int JJTBOOLEXPRESSIONDEF = 17;
+  public int JJTBINARYBOOLEXPRESSIONORDEF = 18;
+  public int JJTBINARYBOOLEXPRESSIONANDDEF = 19;
+  public int JJTBINARYEXPRESSIONEQDEF = 20;
+  public int JJTBINARYBOOLOPERATORCOMPAREDEF = 21;
+  public int JJTBINARYBOOLEXPRESSIONCOMPAREDEF = 22;
+  public int JJTADDEXPRESSIONDEF = 23;
+  public int JJTMULEXPRESSIONDEF = 24;
+  public int JJTUNARYEXPRESSIONDEF = 25;
+  public int JJTCONSTEXPRESSIONDEF = 26;
 
 
   public String[] jjtNodeName = {
@@ -38,9 +41,12 @@ public interface CLangTreeConstants
     "varDefineDef",
     "StatementBlockDef",
     "StatementDef",
+    "ReturnStatementDef",
     "WhileStatementDef",
+    "ForStatementDef",
     "IfStatementDef",
     "expressionDef",
+    "StatementExpressionDefRbracket",
     "assignExpressionDef",
     "boolExpressionDef",
     "binaryBoolExpressionOrDef",
@@ -54,4 +60,4 @@ public interface CLangTreeConstants
     "constExpressionDef",
   };
 }
-/* JavaCC - OriginalChecksum=3c5dab8cfa9a89bd6618908fc91705a3 (do not edit this line) */
+/* JavaCC - OriginalChecksum=2f50c3f43ed34cacbee25bdb2a91ad83 (do not edit this line) */

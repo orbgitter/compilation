@@ -18,4 +18,4 @@ class ASTvarDefineDef extends SimpleNode {
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=0939bcb4687f5921974528c60e59944c (do not edit this line) */
+/* JavaCC - OriginalChecksum=c92ce106b1e9995f7e11f3d3f2bbcbab (do not edit this line) */

@@ -18,4 +18,4 @@ class ASTbinaryBoolExpressionAndDef extends SimpleNode {
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=e64fb36dabbec378ea992dbc143df14c (do not edit this line) */
+/* JavaCC - OriginalChecksum=c23a76adc9e04e8cac064197c73273e7 (do not edit this line) */

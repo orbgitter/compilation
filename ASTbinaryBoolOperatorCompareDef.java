@@ -18,4 +18,4 @@ class ASTbinaryBoolOperatorCompareDef extends SimpleNode {
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=cc4f949d24636cc42ed4abdb168b8c82 (do not edit this line) */
+/* JavaCC - OriginalChecksum=8846c404ecb4495dc68be839203e7687 (do not edit this line) */

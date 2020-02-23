@@ -30,13 +30,40 @@ public class SymbolTableVisitor extends CLangDefaultVisitor {
 
     }
 
+
+
     public SymbolTableEntry resolve(String s) {
+        
         return symbols.get(s);
     }
 
     public void put(SymbolTableEntry s)
     {
         symbols.put(s.name, s);
+    }
+    @Override
+    public Object visit(ASTStart node, Object data) {
+        _text.add("GLOBAL _start");
+        _text.add("_start:");
+        _text.add("call main");
+        _text.add("mov eax, 1");
+        _text.add("xor ebx, ebx");
+        _text.add("int 0x80");
+        _text.add("");
+        Object o = super.visit(node, data);
+
+        System.out.println("SECTION .TEXT");
+        for (String s : _text)
+            System.out.println(s);
+        return o;
+    }
+    @Override
+    public Object visit(ASTsourceCodeDef node, Object data) {
+        return super.visit(node, data);
+    }
+    @Override
+    public Object visit(ASTparamListDef node, Object data) {
+        return super.visit(node, data);
     }
 
     @Override
@@ -51,7 +78,31 @@ public class SymbolTableVisitor extends CLangDefaultVisitor {
     }
 
     @Override
+    public Object visit(ASTfunctionDef node, Object data) {
+        _text.add("1");
+        _text.add(node.firstToken.image);
+        _text.add(String.format("%s:" ,node.firstToken.next.image));
+        _text.add("push rbp");
+        _text.add("mov rbp, rsp");
+        Object o = super.visit(node, data);
+        _text.add("mov rsp, rbp");
+        _text.add("pop rbp");
+        _text.add("ret");
+        return o;
+        // return super.visit(node, data);
+    }
+    @Override
+    public Object visit(ASTvarAssignDefInInit node, Object data) {
+        return super.visit(node, data);
+    }
+    @Override
+    public Object visit(ASTvarAssignDef node, Object data) {
+        return super.visit(node, data);
+    }
+    @Override
     public Object visit(ASTvarDefineDef node, Object data) {
+        _text.add("2");
+        _text.add(node.firstToken.image);
 
         boolean isInt = node.firstToken.image.equals("int");
         if (isInt)
@@ -63,7 +114,6 @@ public class SymbolTableVisitor extends CLangDefaultVisitor {
         
         if (node.children.length > 0)
         {
-
             data = node.children[0].jjtAccept(this, data);
             _text.add("pop rax");
             _text.add(String.format("mov %s [rbp - %d], %s", isInt ? "dword" : "byte", e.offset, isInt ? "eax" : "al"));
@@ -73,7 +123,19 @@ public class SymbolTableVisitor extends CLangDefaultVisitor {
         
         return data;
     }
-
+    @Override
+    public Object visit(ASTStatementBlockDef node, Object data) {
+        return super.visit(node, data);
+    }
+    @Override
+    public Object visit(ASTStatementDef node, Object data) {
+        return super.visit(node, data);
+    }
+    @Override
+    public Object visit(ASTReturnStatementDef node, Object data) {
+        return super.visit(node, data);
+    }
+    
     @Override
     public Object visit(ASTunaryExpressionDef node, Object data) {
         return super.visit(node, data);
@@ -84,6 +146,8 @@ public class SymbolTableVisitor extends CLangDefaultVisitor {
         data = node.children[0].jjtAccept(this, data);
         if (node.children.length > 1)
         {
+            _text.add("this : 4");
+            _text.add(node.firstToken.image);
             data = node.children[1].jjtAccept(this, data);
             _text.add("pop rbx");
             _text.add("pop rax");
@@ -93,10 +157,22 @@ public class SymbolTableVisitor extends CLangDefaultVisitor {
 
         return data;
     }
-    
+    @Override
+    public Object visit(ASTIfStatementDef node, Object data) {
+        data = node.children[0].jjtAccept(this, data);
+        if (node.children.length > 1)
+        {
+            data = node.children[1].jjtAccept(this, data);
+            _text.add(node.firstToken.image);
+            _text.add("if");
+        }
+        return data;
+    }
+
     @Override
     public Object visit(ASTconstExpressionDef node, Object data) {
-        
+        _text.add(" this : 3");
+        _text.add(node.firstToken.image);
         if (node.firstToken.kind == CLang.ID)
         {
             SymbolTableEntry e = resolve(node.firstToken.image);
@@ -125,113 +201,7 @@ public class SymbolTableVisitor extends CLangDefaultVisitor {
         return super.visit(node, data);
     }
 
-    @Override
-    public Object visit(ASTfunctionDef node, Object data) {
-        _text.add(String.format("%s:" ,node.firstToken.next.image));
-        _text.add("push rbp");
-        _text.add("mov rbp, rsp");
-        Object o = super.visit(node, data);
-        _text.add("mov rsp, rbp");
-        _text.add("pop rbp");
-        _text.add("ret");
-        return o;
-        // return super.visit(node, data);
-    }
 
-    @Override
-    public Object visit(ASTStart node, Object data) {
-        Object o = super.visit(node, data);
-
-        System.out.println("SECTION .TEXT\n" +
-        "GLOBAL main\n" +
-        "\n" +
-        "printChar:\n" +
-        "    push rbp\n" +
-        "    mov rbp, rsp\n" +
-        "    push rdi\n" +
-        "    mov byte [rbp - 5], 0x41\n" +
-        "    mov byte [rbp - 4], 0x53\n" +
-        "    mov byte [rbp - 3], 0x41\n" +
-        "    mov byte [rbp - 2], 0x46\n" +
-        "    mov byte [rbp - 1], 0\n" +
-        "    mov rax, 1\n" +
-        "    mov rdi, 1\n" +
-        "    lea rsi, [rbp -5]\n" +
-        "    mov rdx, 5\n" +
-        "    syscall \n" +
-        "\n" +
-        "    mov rsp, rbp\n" +
-        "    pop rbp\n" +
-        "    ret\n" +
-        "\n" +
-        "printNumber:\n" +
-        "    push rbp\n" +
-        "    mov rbp, rsp\n" +
-        "    mov rsi, rdi\n" +
-        "    lea rdi, [rbp - 1]\n" +
-        "    mov byte [rdi], 0\n" +
-        "    mov rax, rsi\n" +
-        "    while:\n" +
-        "    cmp rax, 0\n" +
-        "    je done\n" +
-        "    mov rcx, 10\n" +
-        "    mov rdx, 0\n" +
-        "    div rcx\n" +
-        "    dec rdi\n" +
-        "    add dl, 0x30\n" +
-        "    mov byte [rdi], dl\n" +
-        "    jmp while\n" +
-        "\n" +
-        "    done:\n" +
-        "        mov rax, 1\n" +
-        "        lea rsi, [rdi]\n" +
-        "        mov rdx, rsp\n" +
-        "        sub rdx, rsi\n" +
-        "        mov rdi, 1\n" +
-        "        syscall \n" +
-        "\n" +
-        "        mov rsp, rbp\n" +
-        "        pop rbp\n" +
-        "        ret\n" +
-        "\n" +
-        "readInteger:\n" +
-        "    push rbp\n" +
-        "    mov rbp, rsp\n" +
-        "\n" +
-        "    mov rdx, 10\n" +
-        "    mov qword [rbp - 10], 0\n" +
-        "    mov word [rbp - 2], 0\n" +
-        "    lea rsi, [rbp - 10]\n" +
-        "    mov rdi, 0 ; stdin\n" +
-        "    mov rax, 0 ; sys_read\n" +
-        "    syscall\n" +
-        "\n" +
-        "    xor rax, rax\n" +
-        "    xor rbx, rbx\n" +
-        "    lea rcx, [rbp - 10]\n" +
-        "    \n" +
-        "    copy_byte:\n" +
-        "        cmp rbx, 10\n" +
-        "        je read_done    \n" +
-        "        mov dl, byte [rcx]\n" +
-        "        cmp dl, 10\n" +
-        "        jle read_done\n" +
-        "        sub rdx, 0x30\n" +
-        "        imul rax, 10\n" +
-        "        add rax, rdx\n" +
-        "        nextchar:\n" +
-        "            inc rcx\n" +
-        "            inc rbx\n" +
-        "            jmp copy_byte\n" +
-        "    read_done:\n" +
-        "        mov rsp, rbp\n" +
-        "        pop rbp\n" +
-        "        ret\n" +
-        "\n");
-        for (String s : _text)
-            System.out.println(s);
-        return o;
-    }
 
     
     public static void main(String[] args) throws FileNotFoundException, ParseException {

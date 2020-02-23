@@ -18,4 +18,4 @@ class ASTassignExpressionDef extends SimpleNode {
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=cb5dc86c5c06b8b8fb045bf18292ec33 (do not edit this line) */
+/* JavaCC - OriginalChecksum=28c57d2c5c5c8eb1ce0fcc89b206ab14 (do not edit this line) */

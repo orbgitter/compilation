@@ -18,4 +18,4 @@ class ASTvarAssignDef extends SimpleNode {
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=873151d5a571f7901b112cab6d503d39 (do not edit this line) */
+/* JavaCC - OriginalChecksum=c965b000b368db61f6faede2a9b49bc1 (do not edit this line) */

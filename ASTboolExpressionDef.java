@@ -18,4 +18,4 @@ class ASTboolExpressionDef extends SimpleNode {
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=27ea406268dd96dcc007d33aa9faaa78 (do not edit this line) */
+/* JavaCC - OriginalChecksum=c1f976dddcd9828d18b0e22adbaea589 (do not edit this line) */

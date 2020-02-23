@@ -18,4 +18,4 @@ class ASTexpressionDef extends SimpleNode {
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=4693867471968eb81ec185afd144b6c1 (do not edit this line) */
+/* JavaCC - OriginalChecksum=f4604465ee37ccc43b042ffea54759f7 (do not edit this line) */

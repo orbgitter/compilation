@@ -18,4 +18,4 @@ class ASTunaryExpressionDef extends SimpleNode {
     visitor.visit(this, data);
   }
 }
-/* JavaCC - OriginalChecksum=ed88c48fdb647ff35d19727024d1c999 (do not edit this line) */
+/* JavaCC - OriginalChecksum=8bc2a4a7ab20681c7581c39d0871baa6 (do not edit this line) */
